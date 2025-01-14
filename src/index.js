@@ -62,7 +62,6 @@ function setDelay(difficulty) {
  * chooseHole(holes) //> returns one of the 9 holes that you defined
  */
 
-  let lastHole; // Variable to keep track of the last hole
 
 function chooseHole(holes) {
   // 1. Generate a random integer from 0 to 8
