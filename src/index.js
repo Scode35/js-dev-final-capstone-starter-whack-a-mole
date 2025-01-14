@@ -2,8 +2,9 @@ const holes = document.querySelectorAll('.hole');
 const moles = document.querySelectorAll('.mole');
 const startButton = document.querySelector('#start');
 // TODO: Add the missing query selectors:
-const score; // Use querySelector() to get the score element
-const timerDisplay; // use querySelector() to get the timer element.
+const score = document.querySelector('#score'); // Gets the score element
+const timerDisplay = document.querySelector('#timer'); // Gets the timer element
+
 
 let time = 0;
 let timer;
@@ -21,7 +22,7 @@ let difficulty = "hard";
  *
  */
 function randomInteger(min, max) {
-  // return Math.floor(Math.random() * (max - min + 1)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 /**
@@ -40,10 +41,12 @@ function randomInteger(min, max) {
  *
  */
 function setDelay(difficulty) {
-  // TODO: Write your code here.
+    if (difficulty === "easy") return 1500;
+    if (difficulty === "normal") return 1000;
+    if (difficulty === "hard") return randomInteger(600, 1200);
+  }
   
-}
-
+  
 /**
  * Chooses a random hole from a list of holes.
  *
@@ -58,10 +61,33 @@ function setDelay(difficulty) {
  * const holes = document.querySelectorAll('.hole');
  * chooseHole(holes) //> returns one of the 9 holes that you defined
  */
-function chooseHole(holes) {
-  // TODO: Write your code here.
 
+  let lastHole; // Variable to keep track of the last hole
+
+function chooseHole(holes) {
+  // 1. Generate a random integer from 0 to 8
+  const index = Math.floor(Math.random() * holes.length);
+
+  // 2. Get a random hole with the random index
+  const hole = holes[index];
+
+  // 3. If the chosen hole is the same as the last hole, call the function recursively
+  if (hole === lastHole) {
+    return chooseHole(holes);
+  }
+
+  // 4. Otherwise, update lastHole and return the hole
+  lastHole = hole;
+  return hole;
 }
+
+// Example usage
+const hole = document.querySelectorAll('.hole');
+const selectedHole = chooseHole(holes);
+console.log(selectedHole); // Logs a random hole, ensuring it's not the same as the last one
+
+
+
 
 /**
 *
@@ -75,18 +101,24 @@ function chooseHole(holes) {
 * return the timeoutId if the game continues or the string "game stopped"
 * if the game is over.
 *
-*  // if time > 0:
-*  //   timeoutId = showUp()
-*  //   return timeoutId
-*  // else
-*  //   gameStopped = stopGame()
-*  //   return gameStopped
+*  //if time > 0:
+*  //timeoutId = showUp()
+*  //return timeoutId
+*  //else
+*  //gameStopped = stopGame()
+*  //return gameStopped
 *
 */
 function gameOver() {
-  // TODO: Write your code here
-  
+  if (time > 0) {
+    const timeoutId = showUp(); // Call showUp if there is still time
+    return timeoutId; // Return the timeoutId for tracking
+  } else {
+    const gameStopped = stopGame(); // Stop the game if time is 0
+    return gameStopped; // Return the string "game stopped"
+  }
 }
+
 
 /**
 *
@@ -98,8 +130,8 @@ function gameOver() {
 *
 */
 function showUp() {
-  let delay = 0; // TODO: Update so that it uses setDelay()
-  const hole = 0;  // TODO: Update so that it use chooseHole()
+  const delay = setDelay(difficulty);
+  const hole = chooseHole(holes);
   return showAndHide(hole, delay);
 }
 
@@ -111,16 +143,15 @@ function showUp() {
 * the timeoutID
 *
 */
-function showAndHide(hole, delay){
-  // TODO: call the toggleVisibility function so that it adds the 'show' class.
-  
+function showAndHide(hole, delay) {
+  toggleVisibility(hole); // Show the mole
   const timeoutID = setTimeout(() => {
-    // TODO: call the toggleVisibility function so that it removes the 'show' class when the timer times out.
-    
-    gameOver();
-  }, 0); // TODO: change the setTimeout delay to the one provided as a parameter
+    toggleVisibility(hole); // Hide the mole
+    gameOver(); // Check if the game should continue
+  }, delay);
   return timeoutID;
 }
+
 
 /**
 *
@@ -128,11 +159,11 @@ function showAndHide(hole, delay){
 * a given hole. It returns the hole.
 *
 */
-function toggleVisibility(hole){
-  // TODO: add hole.classList.toggle so that it adds or removes the 'show' class.
-  
+function toggleVisibility(hole) {
+  hole.classList.toggle('show');
   return hole;
 }
+
 
 /**
 *
@@ -144,11 +175,13 @@ function toggleVisibility(hole){
 * for your implementation:
 *
 */
-function updateScore() {
-  // TODO: Write your code here
 
+function updateScore() {
+  points++;
+  score.textContent = points;
   return points;
 }
+
 
 /**
 *
@@ -157,10 +190,10 @@ function updateScore() {
 * the points.
 *
 */
+
 function clearScore() {
-  // TODO: Write your code here
-  // points = 0;
-  // score.textContent = points;
+  points = 0;
+  score.textContent = points;
   return points;
 }
 
@@ -169,12 +202,15 @@ function clearScore() {
 * Updates the control board with the timer if time > 0
 *
 */
+
 function updateTimer() {
-  // TODO: Write your code here.
-  // hint: this code is provided to you in the instructions.
-  
+  if (time > 0) {
+    time--;
+    timerDisplay.textContent = time;
+  }
   return time;
 }
+
 
 /**
 *
@@ -183,10 +219,10 @@ function updateTimer() {
 *
 */
 function startTimer() {
-  // TODO: Write your code here
-  // timer = setInterval(updateTimer, 1000);
+  timer = setInterval(updateTimer, 1000);
   return timer;
 }
+
 
 /**
 *
@@ -197,21 +233,24 @@ function startTimer() {
 *
 */
 function whack(event) {
-  // TODO: Write your code here.
-  // call updateScore()
+  updateScore();
+  toggleVisibility(event.target.closest('.hole')); // Hide the mole when clicked
   return points;
 }
+
 
 /**
 *
 * Adds the 'click' event listeners to the moles. See the instructions
 * for an example on how to set event listeners using a for loop.
 */
-function setEventListeners(){
-  // TODO: Write your code here
-
+function setEventListeners() {
+  moles.forEach(mole => {
+  mole.addEventListener('click', whack);
+  });
   return moles;
 }
+
 
 /**
 *
@@ -231,7 +270,7 @@ function setDuration(duration) {
 *
 */
 function stopGame(){
-  // stopAudio(song);  //optional
+  stopAudio(song);  //optional
   clearInterval(timer);
   return "game stopped";
 }
@@ -253,12 +292,12 @@ function stopGame(){
  * Note: Simply uncommenting `setDuration(10);` and `showUp();` is not enough. To make the game work, ensure all necessary functions listed above are called to initialize the score, timer, event listeners, and mole appearances. 
 */
 function startGame(){
-  //clearScore();
-  //stopGame();   //optional
-  //setDuration(10);
-  //setEventListeners();
-  //startTimer();
-  //showUp();
+  clearScore();
+  stopGame();   //optional
+  setDuration(10);
+  setEventListeners();
+  startTimer();
+  showUp();
   return "game started";
 }
 
