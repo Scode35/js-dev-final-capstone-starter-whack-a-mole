@@ -8,7 +8,7 @@ const restartButton = document.getElementById('restart');
 
 
 let time = 0;
-let timer;
+let timer= 0;
 let lastHole = 0;
 let points = 0;
 let difficulty = "hard";
