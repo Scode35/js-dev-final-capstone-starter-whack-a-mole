@@ -1,14 +1,11 @@
 const holes = document.querySelectorAll('.hole');
 const moles = document.querySelectorAll('.mole');
 const startButton = document.querySelector('#start');
-// TODO: Add the missing query selectors:
-const score = document.querySelector('#score'); // Gets the score element
-const timerDisplay = document.querySelector('#timer'); // Gets the timer element
-const restartButton = document.getElementById('restart');
-
+const score = document.querySelector('#score');
+const timerDisplay = document.querySelector('#timer');
 
 let time = 0;
-let timer= 0;
+let timer = 0;
 let lastHole = 0;
 let points = 0;
 let difficulty = "hard";
@@ -104,22 +101,31 @@ console.log(selectedHole); // Logs a random hole, ensuring it's not the same as 
 *
 *  //if time > 0:
 *  //timeoutId = showUp()
-*  //return timeoutId
+* //return timeoutId
 *  //else
 *  //gameStopped = stopGame()
 *  //return gameStopped
 *
 */
-function gameOver() {
-  if (time > 0) {
-    const timeoutId = showUp(); // Call showUp if there is still time
-    return timeoutId; // Return the timeoutId for tracking
-  } else {
-    const gameStopped = stopGame(); // Stop the game if time is 0
-    return gameStopped; // Return the string "game stopped"
-  }
+
+function startGame() {
+  time = 30; // Reset time to 30 seconds
+  startTimer(); // Start the timer
+  showUp(); // Start showing moles
 }
 
+function gameOver() {
+  let time = 30; // Time in seconds
+function gameOver() {
+  if (time > 0) {
+    setTimeout(showUp, 1000); // Continue showing moles if time is left
+    return "Game continues";
+  } else {
+    stopGame();
+    return "Game Over";
+  }
+}
+}
 
 /**
 *
@@ -324,3 +330,4 @@ window.time = time;
 window.setDuration = setDuration;
 window.toggleVisibility = toggleVisibility;
 window.setEventListeners = setEventListeners;
+
