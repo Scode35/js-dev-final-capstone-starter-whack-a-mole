@@ -232,9 +232,9 @@ function updateTimer() {
 *
 */
 function startTimer() {
-  clearInterval(timer); // Clear any previous timer
-  timer = setInterval(updateTimer, 1000); // Start the timer
-  return timer;
+  console.log("Timer started");
+  clearInterval(timer);
+  timer = setInterval(updateTimer, 1000);
 }
 
 
