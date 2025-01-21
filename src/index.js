@@ -109,13 +109,11 @@ console.log(selectedHole); // Logs a random hole, ensuring it's not the same as 
 *
 */
 
-function startGame() {
-  if (time > 0) {
-  timeoutId = showUp()
-  } else {
-  gameStopped = stopGame()
-  return gameStopped
+function startGame(duration = 10) {
+  clearInterval(timer); // Stop any running timer
+  ...
 }
+
 
 function gameOver() {
   if (time > 0) {
@@ -241,10 +239,12 @@ function startTimer() {
 *
 */
 function whack(event) {
+  if (!event.target.closest('.mole').classList.contains('show')) return; // Ignore clicks on hidden moles
   updateScore();
-  toggleVisibility(event.target.closest('.hole')); // Hide the mole when clicked
+  toggleVisibility(event.target.closest('.hole'));
   return points;
 }
+
 
 
 /**
