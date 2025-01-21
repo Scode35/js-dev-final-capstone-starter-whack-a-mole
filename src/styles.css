@@ -9,11 +9,6 @@ html {
   z-index:0;
   overflow: hidden;
 }
-window.onload = function() {
-      for (let i = 0; i < 9; i++) {
-        document.getElementById("mole" + i).style.display = "block";
-      }
-    };
  
 h1 {
   text-align: center;
