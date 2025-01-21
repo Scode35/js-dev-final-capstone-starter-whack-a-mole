@@ -305,14 +305,12 @@ function stopGame(){
 */
 
 function startGame(duration = 10) {
-  clearScore();
-  stopGame(); // Stop any running game
-  setDuration(duration); // Use parameterized duration
-  setEventListeners();
-  startTimer();
-  showUp();
-  return "game started";
+  clearInterval(timer); // Clear any running timer
+  setDuration(duration); // Set the duration
+  startTimer(); // Start the timer
+  showUp(); // Start the game loop
 }
+
 
 
 
