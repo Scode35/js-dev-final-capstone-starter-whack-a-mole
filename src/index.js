@@ -109,9 +109,12 @@ console.log(selectedHole); // Logs a random hole, ensuring it's not the same as 
 *
 */
 
-function startGame(duration = 10) {
-  clearInterval(timer); // Stop any running timer
-  ...
+function startGame() {
+  if (time > 0) {
+  timeoutId = showUp()
+  } else {
+  gameStopped = stopGame()
+  return gameStopped
 }
 
 
