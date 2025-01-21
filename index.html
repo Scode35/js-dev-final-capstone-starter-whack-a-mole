@@ -47,7 +47,15 @@
     <div id="mole8" class="mole"></div>
   </div>
 </div>
-    <script src="./src/index.js"></script>
-  </body>
+    <script src="./src/index.js">>
+    // Optional: For testing, you can make moles appear when the page loads
+    window.onload = function() {
+      for (let i = 0; i < 9; i++) {
+        document.getElementById("mole" + i).style.display = "block";
+      }
+    };
+  </script>
+</body>
 </html>
+    
 
