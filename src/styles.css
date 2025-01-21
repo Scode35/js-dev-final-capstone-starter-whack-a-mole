@@ -34,6 +34,17 @@ h2 {
     color: white;
 }
 
+#stick {
+  position: absolute;
+  width: 100px; /* Adjust as needed */
+  height: 20px;
+  background-color: brown;
+  border-radius: 5px;
+  transform: rotate(-45deg); /* Default position */
+  display: none; /* Hide it initially */
+  transition: transform 0.2s ease-out, top 0.2s ease-out, left 0.2s ease-out;
+}
+
 .grid {
   width: 600px;
   height: 400px;
