@@ -276,6 +276,7 @@ function setEventListeners() {
 */
 function setDuration(duration) {
   time = duration;
+  timerDisplay.textContent = time; // Updates the initial timer value
   return time;
 }
 
