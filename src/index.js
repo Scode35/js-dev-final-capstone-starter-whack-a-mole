@@ -63,8 +63,11 @@ function setDelay(difficulty) {
 
   
 
+// Declare lastHole globally to track the previously selected hole
+let lastHole = null;
+
 function chooseHole(holes) {
-  // 1. Generate a random integer from 0 to 8
+  // 1. Generate a random integer from 0 to holes.length - 1
   const index = Math.floor(Math.random() * holes.length);
 
   // 2. Get a random hole with the random index
@@ -81,9 +84,10 @@ function chooseHole(holes) {
 }
 
 // Example usage
-const hole = document.querySelectorAll('.hole');
+const holes = document.querySelectorAll('.hole');
 const selectedHole = chooseHole(holes);
 console.log(selectedHole); // Logs a random hole, ensuring it's not the same as the last one
+
 
 
 
