@@ -1,6 +1,7 @@
 const holes = document.querySelectorAll('.hole');
 const moles = document.querySelectorAll('.mole');
 const startButton = document.querySelector('#start');
+const restartButton = document.querySelector('#restart');
 const score = document.querySelector('#score');
 const timerDisplay = document.querySelector('#timer');
 
@@ -277,7 +278,6 @@ function setDuration(duration) {
 *
 */
 function stopGame(){
-  stopAudio(song);  //optional
   clearInterval(timer);
   return "game stopped";
 }
@@ -298,15 +298,18 @@ function stopGame(){
 
  * Note: Simply uncommenting `setDuration(10);` and `showUp();` is not enough. To make the game work, ensure all necessary functions listed above are called to initialize the score, timer, event listeners, and mole appearances. 
 */
-function startGame(){
+
+function startGame(duration = 10) {
   clearScore();
-  stopGame();   //optional
-  setDuration(10);
+  stopGame(); // Stop any running game
+  setDuration(duration); // Use parameterized duration
   setEventListeners();
   startTimer();
   showUp();
   return "game started";
 }
+
+
 
 startButton.addEventListener("click", startGame);
 restartButton.addEventListener('click', clearScore);
