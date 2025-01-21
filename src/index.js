@@ -210,9 +210,13 @@ function clearScore() {
 */
 
 function updateTimer() {
-  if (time > 0){
+  if (time > 0) {
     time -= 1;
-    timerDisplay.textContent = time;
+    timerDisplay.textContent = time; // Update display
+    console.log("Time remaining:", time); // Debug log
+  } else {
+    console.log("Game Over");
+    stopGame();
   }
   return time;
 }
@@ -225,7 +229,8 @@ function updateTimer() {
 *
 */
 function startTimer() {
-  timer = setInterval(updateTimer, 1000);
+  clearInterval(timer); // Clear any previous timer
+  timer = setInterval(updateTimer, 1000); // Start the timer
   return timer;
 }
 
@@ -311,7 +316,9 @@ function startGame(duration = 10) {
 
 
 
-startButton.addEventListener("click", startGame);
+startButton.addEventListener('click', () => {
+  startGame(10); // Pass the desired duration (e.g., 10 seconds)
+});
 restartButton.addEventListener('click', clearScore);
 
 // Please do not modify the code below.
