@@ -269,6 +269,46 @@ function whack(event) {
 
   return points; // Return the updated score (optional)
 }
+const stick = document.getElementById('stick');
+
+// Update the stick's position and animate the hit
+function hitMole(event) {
+  const mole = event.target.closest('.mole');
+
+  // Ensure the event is on a visible mole
+  if (!mole || !mole.classList.contains('show')) return;
+
+  // Get the mole's position
+  const moleRect = mole.getBoundingClientRect();
+
+  // Position the stick near the mole
+  stick.style.top = `${moleRect.top + moleRect.height / 2}px`;
+  stick.style.left = `${moleRect.left - stick.offsetWidth / 2}px`;
+
+  // Show the stick and animate the hit
+  stick.style.display = 'block';
+  stick.style.transform = 'rotate(0deg)';
+
+  // Hide the stick after the hit
+  setTimeout(() => {
+    stick.style.display = 'none';
+    stick.style.transform = 'rotate(-45deg)';
+  }, 200); // Matches the transition duration
+}
+
+// Example: Attach the hitMole function to all moles
+function setEventListeners() {
+  const moles = document.querySelectorAll('.mole');
+  moles.forEach((mole) => {
+    mole.addEventListener('click', (event) => {
+      whack(event); // Call the existing whack logic
+      hitMole(event); // Trigger the stick animation
+    });
+  });
+}
+
+// Call setEventListeners to bind the events
+setEventListeners();
 
 
 /**
@@ -276,15 +316,7 @@ function whack(event) {
 * Adds the 'click' event listeners to the moles. See the instructions
 * for an example on how to set event listeners using a for loop.
 */
-function setEventListeners() {
-  const moles = document.querySelectorAll('.mole');
-  moles.forEach((mole) => {
-    mole.addEventListener('click', whack);
-  });
-}
 
-// Call setEventListeners to bind the events
-setEventListeners();
 
 /**
 *
