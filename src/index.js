@@ -5,7 +5,7 @@ const restartButton = document.querySelector('#restart');
 const score = document.querySelector('#score');
 const timerDisplay = document.querySelector('#timer');
 
-let time = 0;
+let time = 10;
 let timer = 0;
 let lastHole = 0;
 let points = 0;
