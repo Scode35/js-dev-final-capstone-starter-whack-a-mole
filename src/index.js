@@ -173,10 +173,12 @@ function showAndHide(hole, delay) {
 *
 */
 function toggleVisibility(hole) {
-  hole.classList.toggle('show');
-  return hole;
+  // Hide the mole by removing the 'show' class
+  const mole = hole.querySelector('.mole');
+  if (mole) {
+    mole.classList.remove('show');
+  }
 }
-
 
 /**
 *
@@ -251,12 +253,22 @@ function startTimer() {
 *
 */
 function whack(event) {
-  if (!event.target.closest('.mole').classList.contains('show')) return; // Ignore clicks on hidden moles
-  updateScore();
-  toggleVisibility(event.target.closest('.hole'));
-  return points;
-}
+  const mole = event.target.closest('.mole');
+  
+  // Ensure the event is on a visible mole
+  if (!mole || !mole.classList.contains('show')) return;
 
+  // Increment the score
+  updateScore();
+
+  // Hide the mole
+  toggleVisibility(mole.closest('.hole'));
+
+  // Optionally log or display the updated score
+  console.log(`Current score: ${points}`);
+
+  return points; // Return the updated score (optional)
+}
 
 
 /**
@@ -265,12 +277,14 @@ function whack(event) {
 * for an example on how to set event listeners using a for loop.
 */
 function setEventListeners() {
-  moles.forEach(mole => {
-  mole.addEventListener('click', whack);
+  const moles = document.querySelectorAll('.mole');
+  moles.forEach((mole) => {
+    mole.addEventListener('click', whack);
   });
-  return moles;
 }
 
+// Call setEventListeners to bind the events
+setEventListeners();
 
 /**
 *
