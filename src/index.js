@@ -4,7 +4,6 @@ const startButton = document.querySelector('#start');
 const restartButton = document.querySelector('#restart');
 const score = document.querySelector('#score');
 const timerDisplay = document.querySelector('#timer');
-const timeoutID = document.querySelector('#showUp');
 
 let time = 10;
 let timer = 0;
