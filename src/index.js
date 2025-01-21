@@ -109,13 +109,13 @@ console.log(selectedHole); // Logs a random hole, ensuring it's not the same as 
 */
 
 function startGame() {
-  time = 30; // Reset time to 30 seconds
-  startTimer(); // Start the timer
-  showUp(); // Start showing moles
+  if (time > 0) {
+  timeoutId = showUp()
+  } else {
+  gameStopped = stopGame()
+  return gameStopped
 }
 
-function gameOver() {
-  let time = 30; // Time in seconds
 function gameOver() {
   if (time > 0) {
     setTimeout(showUp, 1000); // Continue showing moles if time is left
