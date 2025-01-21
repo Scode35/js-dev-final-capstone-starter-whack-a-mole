@@ -1,12 +1,12 @@
 const holes = document.querySelectorAll('.hole');
 const moles = document.querySelectorAll('.mole');
 const startButton = document.querySelector('#start');
-// TODO: Add the missing query selectors:
-const score; // Use querySelector() to get the score element
-const timerDisplay; // use querySelector() to get the timer element.
+const restartButton = document.querySelector('#restart');
+const score = document.querySelector('#score');
+const timerDisplay = document.querySelector('#timer');
 
 let time = 0;
-let timer;
+let timer = 10;
 let lastHole = 0;
 let points = 0;
 let difficulty = "hard";
@@ -21,7 +21,7 @@ let difficulty = "hard";
  *
  */
 function randomInteger(min, max) {
-  // return Math.floor(Math.random() * (max - min + 1)) + min;
+return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 /**
@@ -40,9 +40,18 @@ function randomInteger(min, max) {
  *
  */
 function setDelay(difficulty) {
-  // TODO: Write your code here.
-  
+  if (difficulty === "easy") {
+    return 1500; // 1.5 seconds
+  } else if (difficulty === "normal") {
+    return 1000; // 1 second
+  } else if (difficulty === "hard") {
+    // Return a random integer between 600 and 1200
+    return Math.floor(Math.random() * (1200 - 600 + 1)) + 600;
+  }
 }
+console.log(setDelay("easy"));   // 1500
+console.log(setDelay("normal")); // 1000
+console.log(setDelay("hard"));   // Random value between 600 and 1200
 
 /**
  * Chooses a random hole from a list of holes.
@@ -58,10 +67,29 @@ function setDelay(difficulty) {
  * const holes = document.querySelectorAll('.hole');
  * chooseHole(holes) //> returns one of the 9 holes that you defined
  */
-function chooseHole(holes) {
-  // TODO: Write your code here.
+let lastHole = null;
 
+function chooseHole(holes) {
+  // Generate a random index between 0 and 8
+  const index = randomInteger(0, 8);
+  
+  // Get the hole at the random index
+  const hole = holes[index];
+  
+  // If the selected hole is the same as the last hole, call the function again
+  if (hole === lastHole) {
+    return chooseHole(holes);
+  }
+  
+  // If it's a different hole, update lastHole and return the new hole
+  lastHole = hole;
+  return hole;
 }
+
+function randomInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 
 /**
 *
@@ -75,15 +103,54 @@ function chooseHole(holes) {
 * return the timeoutId if the game continues or the string "game stopped"
 * if the game is over.
 *
-*  // if time > 0:
-*  //   timeoutId = showUp()
-*  //   return timeoutId
-*  // else
+if time > 0:
+timeoutId = showUp()
+return timeoutId
+else
 *  //   gameStopped = stopGame()
 *  //   return gameStopped
 *
 */
+let time = 30; // Set your initial time (e.g., 30 seconds)
+let timeoutId = null;
+
+function gameLoop() {
+  if (time > 0) {
+    // If time is still left, call showUp to make the mole appear
+    timeoutId = showUp();
+    return timeoutId;
+  } else {
+    // If time is up, stop the game
+    stopGame();
+    return "game stopped";
+  }
+}
+
 function gameOver() {
+  // Stop any ongoing mole timeouts
+  clearTimeout(timeoutId);
+
+  // Hide all moles (if they're still visible)
+  const moles = document.querySelectorAll('.mole');
+  moles.forEach(mole => mole.style.display = 'none');
+
+  // Disable the grid (or make it unresponsive)
+  const holes = document.querySelectorAll('.hole');
+  holes.forEach(hole => hole.style.pointerEvents = 'none'); // Disable interaction
+
+  // Show a game over message
+  const message = document.createElement('div');
+  message.classList.add('game-over-message');
+  message.innerText = 'Game Over!';
+  document.body.appendChild(message);
+
+  // Optionally, restart or reset the game after some time
+  setTimeout(() => {
+    // Reset the game state or show a restart option
+    // Example: restartGame();
+  }, 2000); // Delay before resetting the game
+}
+
   // TODO: Write your code here
   
 }
