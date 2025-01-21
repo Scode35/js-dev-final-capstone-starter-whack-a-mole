@@ -4,6 +4,7 @@ const startButton = document.querySelector('#start');
 const restartButton = document.querySelector('#restart');
 const score = document.querySelector('#score');
 const timerDisplay = document.querySelector('#timer');
+const stick = document.getElementById('#stick');
 
 let time = 10;
 let timer = 0;
@@ -269,7 +270,6 @@ function whack(event) {
 
   return points; // Return the updated score (optional)
 }
-const stick = document.getElementById('stick');
 
 // Update the stick's position and animate the hit
 function hitMole(event) {
