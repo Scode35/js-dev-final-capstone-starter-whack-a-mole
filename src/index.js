@@ -307,11 +307,13 @@ function stopGame(){
  * Note: Simply uncommenting `setDuration(10);` and `showUp();` is not enough. To make the game work, ensure all necessary functions listed above are called to initialize the score, timer, event listeners, and mole appearances. 
 */
 
-function startGame(duration = 10) {
-  clearInterval(timer); // Clear any running timer
-  setDuration(duration); // Set the duration
-  startTimer(); // Start the timer
-  showUp(); // Start the game loop
+function startGame(duration = 10){
+  clearScore();
+  stopGame();   //optional
+  setEventListeners();
+  startTimer();
+  showUp();
+  return "game started";
 }
 
 
@@ -320,6 +322,7 @@ function startGame(duration = 10) {
 startButton.addEventListener('click', () => {
   startGame(10); // Pass the desired duration (e.g., 10 seconds)
 });
+
 restartButton.addEventListener('click', clearScore);
 
 // Please do not modify the code below.
