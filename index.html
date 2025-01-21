@@ -3,32 +3,22 @@
     <link rel="stylesheet" href="./src/styles.css">
   </head>
   <body>
-    <h1 id="title">My Game!!</h1>
+    <h1></h1>
     <div>
       <div>
         <h2>Click start to play!</h2>
-        <button id="start">Start</button>
       </div>
       <div>
-        <h2 id="score">Score:0</h2>
+        <h2>score: <span id="score">0</span></h2>
       </div>
       <div>
-        <h2 id="timer">0: seconds left</h2> 
-        <button id="restart">Restart</button>
+          <h2><span id="timer">0</span> seconds left.</h2>
       </div>
     </div>
-   <div class="game-board">
-  <div class="hole">
-    <div class="mole"></div>
-  </div>
-  <div class="hole">
-    <div class="mole"></div>
-  </div>
-  <!-- Add more holes as needed -->
-</div>
-
-<div id="stick"></div>
-
+    <div class="grid">
+      <div id="hole0" class="hole">
+        <div id="mole0" class="mole"></div>
+      </div>
       <div id="hole1" class="hole">
         <div id="mole1" class="mole"></div>
       </div>
