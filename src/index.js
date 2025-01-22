@@ -248,8 +248,8 @@ function clearScore() {
 function updateTimer() {
   if (time > 0) {
     // Update the control board with the current time
+    time -= 1;
     timerDisplay.textContent = time;
-    time--; // Decrease the time
   } else {
     clearInterval(timer); // Stop the timer when it reaches 0
     gameOver(); // Call the game-over function
@@ -268,7 +268,7 @@ function startTimer() {
   timer = setInterval(updateTimer, 1000); // Call updateTimer every 1000ms (1 second)
   return timer;
 }
-
+startTimer();
 
 /**
 *
