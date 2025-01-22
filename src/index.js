@@ -67,7 +67,7 @@ console.log(setDelay("hard"));   // Random value between 600 and 1200
  * const holes = document.querySelectorAll('.hole');
  * chooseHole(holes) //> returns one of the 9 holes that you defined
  */
-let lastHole = null;
+
 
 function chooseHole(holes) {
   // Generate a random index between 0 and 8
@@ -111,7 +111,7 @@ else
 *  //   return gameStopped
 *
 */
-let time = 30; // Set your initial time (e.g., 30 seconds)
+// Set your initial time (e.g., 30 seconds)
 let timeoutId = null;
 
 function gameLoop() {
