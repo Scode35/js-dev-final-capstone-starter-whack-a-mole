@@ -69,8 +69,6 @@ console.log(setDelay("hard"));   // Random value between 600 and 1200
  */
 
 
-const holes = document.querySelectorAll('.hole');
-
 let lastHole = 0;
 
 function randomInteger(min, max) {
@@ -319,10 +317,6 @@ function setDuration(duration) {
 * timer using clearInterval. Returns "game stopped".
 *
 */
-function stopGame() {
-  clearInterval(timer); // Stops the interval that controls the timer
-  return "game stopped"; // Returns a confirmation message
-}
 
 /**
 * This function starts the game when the `startButton` is clicked and initializes the game by performing the following steps: 
