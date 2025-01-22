@@ -214,13 +214,9 @@ function toggleVisibility(hole) {
 *
 */
 function updateScore() {
-  // Increment the points global variable by 1
-  points += 1;
-
-  // Update the scoreboard in the HTML
+  points ++ 1;
   score.textContent = points;
-
-  // Return the updated points value
+  console.log(points);
   return points;
 }
 /**
@@ -268,7 +264,7 @@ function startTimer() {
   timer = setInterval(updateTimer, 1000); // Call updateTimer every 1000ms (1 second)
   return timer;
 }
-startTimer();
+
 
 /**
 *
@@ -279,11 +275,9 @@ startTimer();
 *
 */
 function whack(event) {
-  // Check if the clicked target has the class 'mole'
-  if (event.target.classList.contains('mole')) {
-    updateScore(); // Increment the score
-  }
-  return points; // Return the updated points
+  function whack(event) {
+  console.log("whack!")
+  updateScore();
 }
 
 
@@ -292,18 +286,12 @@ function whack(event) {
 * Adds the 'click' event listeners to the moles. See the instructions
 * for an example on how to set event listeners using a for loop.
 */
-function setEventListeners() {
-  // Get all elements with the class 'mole'
-  const moles = document.querySelectorAll('.mole');
-
-  // Add a 'click' event listener to each mole
-  moles.forEach(mole => {
-    mole.addEventListener('click', whack);
-  });
-
-  return moles; // Return the NodeList of moles
+function setEventListeners(){
+  moles.forEach(
+    mole => mole.addEventListener('click', whack)
+  );
+  return moles;
 }
-
 
 /**
 *
