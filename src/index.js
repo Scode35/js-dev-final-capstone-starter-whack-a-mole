@@ -214,7 +214,7 @@ function toggleVisibility(hole) {
 *
 */
 function updateScore() {
-  points ++ 1;
+  points ++;
   score.textContent = points;
   console.log(points);
   return points;
