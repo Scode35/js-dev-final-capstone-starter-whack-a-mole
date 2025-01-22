@@ -69,22 +69,37 @@ console.log(setDelay("hard"));   // Random value between 600 and 1200
  */
 
 
+const holes = document.querySelectorAll('.hole');
+
+let lastHole = 0;
+
+function randomInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function chooseHole(holes) {
-  // Generate a random index between 0 and 8
-  const index = randomInteger(0, 8);
-  
-  // Get the hole at the random index
+  const index = randomInteger(0, 2);
   const hole = holes[index];
-  
-  // If the selected hole is the same as the last hole, call the function again
   if (hole === lastHole) {
     return chooseHole(holes);
   }
-  
-  // If it's a different hole, update lastHole and return the new hole
   lastHole = hole;
   return hole;
 }
+
+// example
+let hole = chooseHole(holes);
+
+// highlight random hole
+hole.classList.toggle("highlight");
+console.log(hole.innerHTML);
+console.log(hole.classList);
+
+// choose another hole and highlight it too
+hole = chooseHole(holes);
+hole.classList.toggle("highlight");
+console.log(hole.innerHTML);
+console.log(hole.classList);
 
 function randomInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
