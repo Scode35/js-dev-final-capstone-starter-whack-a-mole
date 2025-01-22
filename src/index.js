@@ -185,10 +185,10 @@ function showUp() {
 }
 
 function showAndHide(hole, delay){
-  toggleVisibility(hole, true);  // Show the mole
-  const timeoutID = setTimeout(() => {
-    toggleVisibility(hole, false);  // Hide the mole after delay
-    gameOver();
+  if toggleVisibility(hole, true);  // Show the mole
+  const timeoutID = setTimeout(() => { else
+  toggleVisibility(hole, false);  // Hide the mole after delay
+  gameOver();
   }, delay);  // Use the delay passed as a parameter
   return timeoutID;
 }
@@ -227,13 +227,7 @@ function updateScore() {
 *
 */
 function clearScore() {
-  // Set points to 0
-  points = 0;
-
-  // Update the scoreboard in the HTML
   score.textContent = points;
-
-  // Return the cleared points value
   return points;
 }
 /**
