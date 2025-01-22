@@ -178,14 +178,18 @@ function showUp() {
 * the timeoutID
 *
 */
+function showUp() {
+  let delay = setDelay();  // Update to use setDelay()
+  const hole = chooseHole();  // Update to use chooseHole()
+  return showAndHide(hole, delay);
+}
+
 function showAndHide(hole, delay){
-  // TODO: call the toggleVisibility function so that it adds the 'show' class.
-  
+  toggleVisibility(hole, true);  // Show the mole
   const timeoutID = setTimeout(() => {
-    // TODO: call the toggleVisibility function so that it removes the 'show' class when the timer times out.
-    
+    toggleVisibility(hole, false);  // Hide the mole after delay
     gameOver();
-  }, 0); // TODO: change the setTimeout delay to the one provided as a parameter
+  }, delay);  // Use the delay passed as a parameter
   return timeoutID;
 }
 
@@ -195,12 +199,10 @@ function showAndHide(hole, delay){
 * a given hole. It returns the hole.
 *
 */
-function toggleVisibility(hole){
-  // TODO: add hole.classList.toggle so that it adds or removes the 'show' class.
-  
+function toggleVisibility(hole) {
+  hole.classList.toggle('show');  // This adds or removes the 'show' class
   return hole;
 }
-
 /**
 *
 * This function increments the points global variable and updates the scoreboard.
@@ -212,11 +214,15 @@ function toggleVisibility(hole){
 *
 */
 function updateScore() {
-  // TODO: Write your code here
+  // Increment the points global variable by 1
+  points += 1;
 
+  // Update the scoreboard in the HTML
+  score.textContent = points;
+
+  // Return the updated points value
   return points;
 }
-
 /**
 *
 * This function clears the score by setting `points = 0`. It also updates
@@ -225,12 +231,15 @@ function updateScore() {
 *
 */
 function clearScore() {
-  // TODO: Write your code here
-  // points = 0;
-  // score.textContent = points;
+  // Set points to 0
+  points = 0;
+
+  // Update the scoreboard in the HTML
+  score.textContent = points;
+
+  // Return the cleared points value
   return points;
 }
-
 /**
 *
 * Updates the control board with the timer if time > 0
