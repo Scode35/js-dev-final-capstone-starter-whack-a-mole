@@ -23,7 +23,12 @@ let difficulty = "hard";
 function randomInteger(min, max) {
 return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
+console.log("A random integer between 0 and 10");
+console.log(randomInteger(0, 10));
+console.log("Another random integer between 0 and 10");
+console.log(randomInteger(0, 10));
+console.log("A random number between 10 and 200");
+console.log(randomInteger(10, 600));
 /**
  * Sets the time delay given a difficulty parameter.
  *
