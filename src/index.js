@@ -246,11 +246,17 @@ function clearScore() {
 *
 */
 function updateTimer() {
-  // TODO: Write your code here.
-  // hint: this code is provided to you in the instructions.
-  
+  if (time > 0) {
+    // Update the control board with the current time
+    timerDisplay.textContent = time;
+    time--; // Decrease the time
+  } else {
+    clearInterval(timer); // Stop the timer when it reaches 0
+    gameOver(); // Call the game-over function
+  }
   return time;
 }
+
 
 /**
 *
@@ -259,10 +265,10 @@ function updateTimer() {
 *
 */
 function startTimer() {
-  // TODO: Write your code here
-  // timer = setInterval(updateTimer, 1000);
+  timer = setInterval(updateTimer, 1000); // Call updateTimer every 1000ms (1 second)
   return timer;
 }
+
 
 /**
 *
@@ -273,21 +279,31 @@ function startTimer() {
 *
 */
 function whack(event) {
-  // TODO: Write your code here.
-  // call updateScore()
-  return points;
+  // Check if the clicked target has the class 'mole'
+  if (event.target.classList.contains('mole')) {
+    updateScore(); // Increment the score
+  }
+  return points; // Return the updated points
 }
+
 
 /**
 *
 * Adds the 'click' event listeners to the moles. See the instructions
 * for an example on how to set event listeners using a for loop.
 */
-function setEventListeners(){
-  // TODO: Write your code here
+function setEventListeners() {
+  // Get all elements with the class 'mole'
+  const moles = document.querySelectorAll('.mole');
 
-  return moles;
+  // Add a 'click' event listener to each mole
+  moles.forEach(mole => {
+    mole.addEventListener('click', whack);
+  });
+
+  return moles; // Return the NodeList of moles
 }
+
 
 /**
 *
@@ -296,9 +312,10 @@ function setEventListeners(){
 *
 */
 function setDuration(duration) {
-  time = duration;
-  return time;
+  time = duration; // Assign the provided duration to the global time variable
+  return time; // Return the updated time
 }
+
 
 /**
 *
@@ -306,10 +323,9 @@ function setDuration(duration) {
 * timer using clearInterval. Returns "game stopped".
 *
 */
-function stopGame(){
-  // stopAudio(song);  //optional
-  clearInterval(timer);
-  return "game stopped";
+function stopGame() {
+  clearInterval(timer); // Stops the interval that controls the timer
+  return "game stopped"; // Returns a confirmation message
 }
 
 /**
