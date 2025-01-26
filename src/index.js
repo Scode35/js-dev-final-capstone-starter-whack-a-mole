@@ -68,36 +68,31 @@ console.log(setDelay("hard"));   // Random value between 600 and 1200
  * chooseHole(holes) //> returns one of the 9 holes that you defined
  */
 
+function chooseHole() {
+  if (holes.length === 0) {
+    console.error('No holes found in the DOM');
+    return null;
+  }
 
-let lastHole = 0;
-
-function randomInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function chooseHole(holes) {
-  const index = randomInteger(0, 2);
+  const index = Math.floor(Math.random() * holes.length);
   const hole = holes[index];
-  if (hole === lastHole) {
-    return chooseHole(holes);
+
+  if (hole) {
+      return hole;
+  } else {
+      console.error('Hole is undefined');
+      return null;
   }
   lastHole = hole;
-  return hole;
+    return hole;
 }
 
-// example
 let hole = chooseHole(holes);
 
-// highlight random hole
-hole.classList.toggle("highlight");
-console.log(hole.innerHTML);
-console.log(hole.classList);
 
-// choose another hole and highlight it too
-hole = chooseHole(holes);
-hole.classList.toggle("highlight");
-console.log(hole.innerHTML);
-console.log(hole.classList);
+  // If it's a different hole, update lastHole and return the new hole
+
+
 
 function randomInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -124,7 +119,6 @@ else
 *  //   return gameStopped
 *
 */
-// Set your initial time (e.g., 30 seconds)
 let timeoutId = null;
 
 function gameLoop() {
@@ -139,34 +133,32 @@ function gameLoop() {
   }
 }
 
+let timeoutID;
+
+function restartGame() {
+  clearTimeout(timeoutID);  // Clear the previous timeout if any
+  console.log('Game has been reset!');
+  // Reset game variables and DOM elements here
+}
+
+// Call the setTimeout function to restart the game after 2 seconds
+timeoutID = setTimeout(() => {
+  restartGame();
+}, 2000);
+
+
 function gameOver() {
   // Stop any ongoing mole timeouts
   clearTimeout(timeoutId);
 
-  // Hide all moles (if they're still visible)
-  const moles = document.querySelectorAll('.mole');
-  moles.forEach(mole => mole.style.display = 'none');
-
-  // Disable the grid (or make it unresponsive)
-  const holes = document.querySelectorAll('.hole');
-  holes.forEach(hole => hole.style.pointerEvents = 'none'); // Disable interaction
 
   // Show a game over message
   const message = document.createElement('div');
   message.classList.add('game-over-message');
-  message.innerText = 'Game Over!';
   document.body.appendChild(message);
-
-  // Optionally, restart or reset the game after some time
-  setTimeout(() => {
-    // Reset the game state or show a restart option
-    // Example: restartGame();
-  }, 2000); // Delay before resetting the game
 }
 
-  // TODO: Write your code here
-  
-}
+
 
 /**
 *
@@ -178,10 +170,12 @@ function gameOver() {
 *
 */
 function showUp() {
-  let delay = 0; // TODO: Update so that it uses setDelay()
-  const hole = 0;  // TODO: Update so that it use chooseHole()
+  let delay = setDelay();  // Update to use setDelay()
+  const hole = chooseHole();  // Update to use chooseHole()
   return showAndHide(hole, delay);
 }
+
+
 
 /**
 *
@@ -191,20 +185,23 @@ function showUp() {
 * the timeoutID
 *
 */
-function showUp() {
-  let delay = setDelay();  // Update to use setDelay()
-  const hole = chooseHole();  // Update to use chooseHole()
-  return showAndHide(hole, delay);
-}
 
+// Show and hide the mole with a delay
 function showAndHide(hole, delay){
-  if toggleVisibility(hole, true);  // Show the mole
-  const timeoutID = setTimeout(() => { else
-  toggleVisibility(hole, false);  // Hide the mole after delay
-  gameOver();
+  toggleVisibility(hole);  // Show the mole by adding the 'show' class
+  const timeoutID = setTimeout(() => { 
+  toggleVisibility(hole);  // Hide the mole after delay by removing the 'show' class
+  gameOver();  // End the game (can add conditional checks if needed)
   }, delay);  // Use the delay passed as a parameter
   return timeoutID;
 }
+
+// Toggle the visibility of a hole by adding/removing the 'show' class
+function toggleVisibility(hole) {
+  hole.classList.toggle('show');  // Toggle the 'show' class
+  return hole;
+}
+
 
 /**
 *
@@ -212,10 +209,7 @@ function showAndHide(hole, delay){
 * a given hole. It returns the hole.
 *
 */
-function toggleVisibility(hole) {
-  hole.classList.toggle('show');  // This adds or removes the 'show' class
-  return hole;
-}
+
 /**
 *
 * This function increments the points global variable and updates the scoreboard.
@@ -281,6 +275,7 @@ function startTimer() {
 * the moles.
 *
 */
+
   function whack(event) {
   console.log("whack!")
   updateScore();
@@ -298,6 +293,8 @@ function setEventListeners(){
   );
   return moles;
 }
+
+
 
 /**
 *
@@ -317,6 +314,10 @@ function setDuration(duration) {
 * timer using clearInterval. Returns "game stopped".
 *
 */
+function stopGame() {
+  clearInterval(timer); // Stops the interval that controls the timer
+  return "game stopped"; // Returns a confirmation message
+}
 
 /**
 * This function starts the game when the `startButton` is clicked and initializes the game by performing the following steps: 
@@ -337,7 +338,7 @@ function setDuration(duration) {
 */
 function startGame(){
   clearScore();
-  stopGame();   //optional
+  // */stopGame();   //optional
   setDuration(10);
   setEventListeners();
   startTimer();
