@@ -20,9 +20,7 @@ let difficulty = "hard";
  * will return a random integer between 10 and 200.
  *
  */
-function randomInteger(min, max) {
-return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+
 
 /**
  * Sets the time delay given a difficulty parameter.
@@ -68,26 +66,6 @@ console.log(setDelay("hard"));   // Random value between 600 and 1200
  * chooseHole(holes) //> returns one of the 9 holes that you defined
  */
 
-function chooseHole() {
-  if (holes.length === 0) {
-    console.error('No holes found in the DOM');
-    return null;
-  }
-
-  const index = Math.floor(Math.random() * holes.length);
-  const hole = holes[index];
-
-  if (hole) {
-      return hole;
-  } else {
-      console.error('Hole is undefined');
-      return null;
-  }
-  lastHole = hole;
-    return hole;
-}
-
-let hole = chooseHole(holes);
 
 
   // If it's a different hole, update lastHole and return the new hole
@@ -98,6 +76,27 @@ function randomInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function chooseHole(holes) {
+  const index = randomInteger(0, 8);
+  const hole = holes[index];
+  if (hole === lastHole) {
+    return chooseHole(holes);
+  }
+  lastHole = hole;
+  return hole;
+}
+let hole = chooseHole()
+
+// highlight random hole
+hole.classList.toggle("highlight");
+console.log(hole.innerHTML);
+console.log(hole.classList);
+
+// choose another hole and highlight it too
+hole = chooseHole(holes);
+hole.classList.toggle("highlight");
+console.log(hole.innerHTML);
+console.log(hole.classList);
 
 /**
 *
@@ -139,20 +138,15 @@ function restartGame() {
   clearTimeout(timeoutID);  // Clear the previous timeout if any
   console.log('Game has been reset!');
   // Reset game variables and DOM elements here
-}
-
 // Call the setTimeout function to restart the game after 2 seconds
 timeoutID = setTimeout(() => {
   restartGame();
 }, 2000);
-
+}
 
 function gameOver() {
   // Stop any ongoing mole timeouts
   clearTimeout(timeoutId);
-
-
-  // Show a game over message
   const message = document.createElement('div');
   message.classList.add('game-over-message');
   document.body.appendChild(message);
