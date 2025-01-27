@@ -25,7 +25,9 @@ function randomInteger(min, max) {
 }
 
 console.log(randomInteger(0, 10));
-console.log(randomInteger(10,200));  
+console.log(randomInteger(10,200)); 
+  
+ 
 
 /**
  * Sets the time delay given a difficulty parameter.
@@ -51,11 +53,11 @@ function setDelay(difficulty) {
     // Return a random integer between 600 and 1200
     return Math.floor(Math.random() * (1200 - 600 + 1)) + 600;
   }
-}
+
 console.log(setDelay("easy"));   // 1500
 console.log(setDelay("normal")); // 1000
 console.log(setDelay("hard"));   // Random value between 600 and 1200
-
+}
 /**
  * Chooses a random hole from a list of holes.
  *
@@ -86,8 +88,9 @@ console.log(setDelay("hard"));   // Random value between 600 and 1200
         console.error('Hole is undefined');
         return null;
     }
-}
-console.log(chooseHole);
+  }
+  console.log(chooseHole);  
+
 
 /**
 *
@@ -133,14 +136,6 @@ function restartGame() {
 }, 2000);
 }
 
-function gameOver() {
-  // Stop any ongoing mole timeouts
-  clearTimeout(timeoutId);
-  const message = document.createElement('div');
-  message.classList.add('game-over-message');
-  document.body.appendChild(message);
-}
-
 
 
 /**
@@ -154,8 +149,13 @@ function gameOver() {
 */
 
 function showUp() {
-  let delay = setDelay();  // Update to use setDelay()
-  const hole = chooseHole();  // Update to use chooseHole()
+  // Call setDelay to get a random delay
+  const delay = setDelay();
+
+  // Call chooseHole to get a random hole
+  const hole = chooseHole();
+
+  // Call showAndHide with the selected hole and delay
   return showAndHide(hole, delay);
 }
 
@@ -173,14 +173,16 @@ function showUp() {
 */
 
 // Show and hide the mole with a delay
-function showAndHide(hole, delay){
-  toggleVisibility(hole);  // Show the mole by adding the 'show' class
-  const timeoutID = setTimeout(() => { 
-  toggleVisibility(hole);  // Hide the mole after delay by removing the 'show' class
-  gameOver();  // End the game (can add conditional checks if needed)
-  }, delay);  // Use the delay passed as a parameter
-  return timeoutID;
+function showAndHide(hole, delay) {
+  // Show the mole in the selected hole
+  hole.classList.add('visible');
+
+  // Hide the mole after the specified delay
+  setTimeout(() => {
+    hole.classList.remove('visible');
+  }, delay);
 }
+
 
 // Toggle the visibility of a hole by adding/removing the 'show' class
 function toggleVisibility(hole) {
@@ -262,25 +264,34 @@ function startTimer() {
 *
 */
 
-  function whack(event) {
-  console.log("whack!")
-  updateScore();
-}
-
-
 /**
 *
 * Adds the 'click' event listeners to the moles. See the instructions
 * for an example on how to set event listeners using a for loop.
 */
-function setEventListeners(){
-  moles.forEach(
-    mole => mole.addEventListener('click', whack)
-  );
+function setEventListeners() {
+  moles.forEach(mole => {
+    mole.addEventListener('click', function whack() {
+      console.log('Mole whacked!');
+      updateScore(); // Call a function to update the player's score
+    });
+  });
+
+  // Returning moles if needed for further processing
   return moles;
 }
 
+function whack() {
+  const mole = event.target;
+  mole.style.visibility = 'hidden';
+  console.log('Whack!');
+}
 
+function gameOver() {
+  // Stop any ongoing mole timeouts
+ clearTimeout(timeoutId);
+return timeoutId;
+}
 
 /**
 *
