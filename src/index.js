@@ -78,20 +78,33 @@ console.log(setDelay("hard"));   // Random value between 600 and 1200
   // If it's a different hole, update lastHole and return the new hole
 
 
-
-  function chooseHole() {
-   const index = Math.floor(Math.random() * 9);  // Ensure index is declared and initialized here
-   const hole = holes[index];
-    if (hole) {
-        return hole;
-    } else {
-        console.error('Hole is undefined');
-        return null;
+  function chooseHole(holes) {
+    // 1. Generate a random integer from 0 to 8
+    const index = Math.floor(Math.random() * 9);
+  
+    // 2. Get a random hole with the random index
+    const hole = holes[index];
+  
+    // 3. If the chosen hole is the same as the last hole, call the function recursively
+    if (hole === lastHole) {
+      return chooseHole(holes);
     }
+  
+    // 4. Otherwise, update lastHole and return the hole
+    lastHole = hole;
+    return hole;
   }
-  console.log(chooseHole);  
+  
+  // Example usage
+ 
+  const selectedHole = chooseHole(holes);
+  console.log(selectedHole);
+  
 
-
+  
+    
+      
+  
 /**
 *
 * Calls the showUp function if time > 0 and stops the game if time = 0.
@@ -126,16 +139,19 @@ function gameLoop() {
   }
 }
 
-let timeoutID;
+
 
 function restartGame() {
-  clearTimeout(timeoutID);  // Clear the previous timeout if any
+  // Clear the previous timeout if any
+  clearTimeout(timeoutID);
   console.log('Game has been reset!');
-  timeoutID = setTimeout(() => {
-  restartGame();
-}, 2000);
-}
 
+  // Set a new timeout to restart the game
+  timeoutID = setTimeout(() => {
+    restartGame(); // Recursively call restartGame
+  }, 2000); 
+
+}
 
 
 /**
@@ -149,16 +165,16 @@ function restartGame() {
 */
 
 function showUp() {
-  // Call setDelay to get a random delay
+  const hole = chooseHole();
   const delay = setDelay();
 
-  // Call chooseHole to get a random hole
-  const hole = chooseHole();
-
-  // Call showAndHide with the selected hole and delay
-  return showAndHide(hole, delay);
+  if (hole) {
+    showAndHide(hole, delay);
+  }
 }
 
+// Call showUp every second to simulate moles popping up
+setInterval(showUp, 1000);
 
 
 
@@ -174,13 +190,12 @@ function showUp() {
 
 // Show and hide the mole with a delay
 function showAndHide(hole, delay) {
-  // Show the mole in the selected hole
-  hole.classList.add('visible');
-
-  // Hide the mole after the specified delay
-  setTimeout(() => {
-    hole.classList.remove('visible');
+  toggleVisibility(hole); // Show the mole
+  const timeoutID = setTimeout(() => {
+    toggleVisibility(hole); // Hide the mole
+    gameOver(); // Check if the game should continue
   }, delay);
+  return timeoutID;
 }
 
 
@@ -209,9 +224,8 @@ function toggleVisibility(hole) {
 *
 */
 function updateScore() {
-  points ++;
+  points++;
   score.textContent = points;
-  console.log(points);
   return points;
 }
 /**
@@ -222,6 +236,7 @@ function updateScore() {
 *
 */
 function clearScore() {
+  points = 0;
   score.textContent = points;
   return points;
 }
@@ -232,12 +247,8 @@ function clearScore() {
 */
 function updateTimer() {
   if (time > 0) {
-    // Update the control board with the current time
-    time -= 1;
+    time--;
     timerDisplay.textContent = time;
-  } else {
-    clearInterval(timer); // Stop the timer when it reaches 0
-    gameOver(); // Call the game-over function
   }
   return time;
 }
@@ -269,28 +280,29 @@ function startTimer() {
 * Adds the 'click' event listeners to the moles. See the instructions
 * for an example on how to set event listeners using a for loop.
 */
-function setEventListeners() {
-  moles.forEach(mole => {
-    mole.addEventListener('click', function whack() {
-      console.log('Mole whacked!');
-      updateScore(); // Call a function to update the player's score
-    });
-  });
 
-  // Returning moles if needed for further processing
+
+function whack(event) {
+  updateScore();
+  toggleVisibility(event.target.closest('.hole')); // Hide the mole when clicked
+  return points;
+}
+
+function setEventListeners(){
+  moles.forEach(
+    mole => mole.addEventListener('click', whack)
+  );
   return moles;
 }
 
-function whack() {
-  const mole = event.target;
-  mole.style.visibility = 'hidden';
-  console.log('Whack!');
-}
-
 function gameOver() {
-  // Stop any ongoing mole timeouts
- clearTimeout(timeoutId);
-return timeoutId;
+  if (time > 0) {
+    timeoutId = showUp(); // Call showUp to continue the game
+    return timeoutId;
+  } else {
+    gameStopped = stopGame(); // Call stopGame when the time is up
+    return gameStopped;
+  }
 }
 
 /**
