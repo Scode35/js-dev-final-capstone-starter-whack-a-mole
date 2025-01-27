@@ -20,7 +20,12 @@ let difficulty = "hard";
  * will return a random integer between 10 and 200.
  *
  */
+function randomInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
+console.log(randomInteger(0, 10));
+console.log(randomInteger(10,200));  
 
 /**
  * Sets the time delay given a difficulty parameter.
@@ -72,31 +77,17 @@ console.log(setDelay("hard"));   // Random value between 600 and 1200
 
 
 
-function randomInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  function chooseHole() {
+   const index = Math.floor(Math.random() * 9);  // Ensure index is declared and initialized here
+   const hole = holes[index];
+    if (hole) {
+        return hole;
+    } else {
+        console.error('Hole is undefined');
+        return null;
+    }
 }
 
-function chooseHole(holes) {
-  const index = randomInteger(0, 8);
-  const hole = holes[index];
-  if (hole === lastHole) {
-    return chooseHole(holes);
-  }
-  lastHole = hole;
-  return hole;
-}
-let hole = chooseHole()
-
-// highlight random hole
-hole.classList.toggle("highlight");
-console.log(hole.innerHTML);
-console.log(hole.classList);
-
-// choose another hole and highlight it too
-hole = chooseHole(holes);
-hole.classList.toggle("highlight");
-console.log(hole.innerHTML);
-console.log(hole.classList);
 
 /**
 *
@@ -137,9 +128,7 @@ let timeoutID;
 function restartGame() {
   clearTimeout(timeoutID);  // Clear the previous timeout if any
   console.log('Game has been reset!');
-  // Reset game variables and DOM elements here
-// Call the setTimeout function to restart the game after 2 seconds
-timeoutID = setTimeout(() => {
+  timeoutID = setTimeout(() => {
   restartGame();
 }, 2000);
 }
@@ -163,11 +152,14 @@ function gameOver() {
 * to call `showAndHide(hole, delay)`.
 *
 */
+
 function showUp() {
   let delay = setDelay();  // Update to use setDelay()
   const hole = chooseHole();  // Update to use chooseHole()
   return showAndHide(hole, delay);
 }
+
+
 
 
 
