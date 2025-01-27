@@ -87,7 +87,7 @@ console.log(setDelay("hard"));   // Random value between 600 and 1200
         return null;
     }
 }
-
+console.log(chooseHole);
 
 /**
 *
