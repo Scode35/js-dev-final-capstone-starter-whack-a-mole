@@ -80,12 +80,9 @@ console.log(setDelay("hard"));   // Random value between 600 and 1200
 
   function chooseHole(holes) {
     // 1. Generate a random integer from 0 to 8
-    const index = Math.floor(Math.random() * 9);
-  
-    // 2. Get a random hole with the random index
+    const index = Math.floor(Math.random() * holes.length);
     const hole = holes[index];
-  
-    // 3. If the chosen hole is the same as the last hole, call the function recursively
+
     if (hole === lastHole) {
       return chooseHole(holes);
     }
@@ -165,15 +162,14 @@ function restartGame() {
 */
 
 function showUp() {
-  const hole = chooseHole();
-  const delay = setDelay();
+  const hole = chooseHole(holes);
+  const delay = setDelay(difficulty);
 
   if (hole) {
     showAndHide(hole, delay);
   }
 }
 
-// Call showUp every second to simulate moles popping up
 setInterval(showUp, 1000);
 
 
